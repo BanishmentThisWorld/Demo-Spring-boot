@@ -1,0 +1,27 @@
+server:
+  port: 8081
+#spring:
+#  profiles:
+#    active: prod
+#---
+#server:
+#  port: 8082
+#spring:
+#  profiles: prod
+#---
+
+person:
+  name: honey
+  boss: true
+  birth: 1997/06/20
+  maps: {k1: v1,k2: v2,k3: v3}
+  lists:
+    - ${person.name}_beautiful
+    - cute
+    - smart
+  age: 23
+
+
+#spring:
+#  profiles:
+#    active: dev
