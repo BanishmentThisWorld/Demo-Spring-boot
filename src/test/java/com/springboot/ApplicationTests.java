@@ -3,12 +3,19 @@ package com.springboot;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.springboot.bean.BeanTests;
 import com.springboot.bean.Color;
+import com.springboot.bean.MyUser;
 import com.springboot.bean.Person;
 import com.springboot.config.MainConfig2;
 import com.springboot.config.MainConfigOfLifeCycle;
 import com.springboot.config.MainConfigOfPropertyValues;
+import com.springboot.dao.IUerDao;
 import com.springboot.service.HelloService;
-import com.sun.deploy.Environment;
+
+import org.apache.catalina.User;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +27,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -145,10 +155,31 @@ class ApplicationTests {
         System.out.println(person);
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         String name = environment.getProperty("person.name");
-        System.out.println("环境变量name"+name);
+        System.out.println("环境变量name："+name);
 
         applicationContext.close();
 
+    }
+
+    @Test
+     void testMybatis() throws IOException {
+        //1.读取配置文件
+        InputStream in = Resources.getResourceAsStream("MyBatis.xml");
+        //2.创建SqlSessionFactory工厂
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        SqlSessionFactory factory = builder.build(in);
+        //3.使用工厂生产 SqlSession对象
+        SqlSession session = factory.openSession();
+        //4. 使用 SqlSession 创建 Dao 接口的代理对象
+        IUerDao uerDao = session.getMapper(IUerDao.class);
+        //5. 使用代理对象执行方法
+        List<MyUser> users = uerDao.findAll();
+        for (MyUser mu : users){
+            System.out.println(mu);
+        }
+        //6. 释放资源
+        session.close();
+        in.close();
     }
 
 }

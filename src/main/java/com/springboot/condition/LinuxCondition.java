@@ -9,6 +9,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  * @author yc
  * @create 2020-04-27-14:07
  */
+
 public class LinuxCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {

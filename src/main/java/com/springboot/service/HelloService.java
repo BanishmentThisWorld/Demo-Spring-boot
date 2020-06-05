@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
  */
 
 public class HelloService {
-    // 在线修改 本地也改改
-    //  本地修改
-    // 测试文字 这个
-    // 偷偷网页修改
+
     private String name;
 
     public String getName() {

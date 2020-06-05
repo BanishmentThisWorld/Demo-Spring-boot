@@ -15,6 +15,7 @@ public class MainConfigOfPropertyValues {
 
     @Bean("personValues")
     public Person person(){
+        System.out.println("123");
         return new Person();
     }
 }
